@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script 
+    src="https://code.jquery.com/jquery-3.6.0.min.js" 
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+    crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="/publics/signup.css">
+</head>
+<body>
+    
+    <div class="signup_ctrl_form">
+
+        <div class="signup_form">
+
+            <div class="signup_in_center">
+
+                <h1>singup</h1>
+    
+                <div class="signup_name_layout">
+            
+                    <div>
+                        Name : 
+                    </div>
+                    <div>
+                        <input type="text" id="name" class="signup_sub_margin">
+                    </div>
+                    
+                </div>
+            
+                <div class="signup_name_layout">
+            
+                    <div>
+                        Email : 
+                    </div>
+                    <div>
+                        <input type="email" id="email" class="signup_sub_margin">
+                    </div>
+            
+                </div>
+            
+                <div class="signup_name_layout">
+            
+                    <div>
+                        Password : 
+                    </div>
+                    <div>
+                        <input type="password" id="password" class="signup_sub_margin">
+                    </div>
+            
+                </div>
+
+            </div>
+           
+            <div class="signup_btn_layout">
+        
+                <div class="signup_btn" id="signupBtn">signup</div>
+        
+                <div class="signup_btn_sub" id="listBtn">list</div>
+        
+            </div>
+    
+        </div>
+
+    </div>
+
+    <script>
+
+        const signupBtn = document.getElementById("signupBtn")
+        const listBtn = document.getElementById("listBtn")
+
+        signupBtn.addEventListener("click", function(){
+
+            const name = $("#name").val()
+            const email = $("#email").val()
+            const password = $("#password").val()
+
+            $.ajax({
+                type : "POST",
+                url : '/user/signup',
+                data : {
+                    name : name,
+                    email : email,
+                    password : password
+                },
+                success : function(response){
+
+                }
+            })
+
+        })
+
+
+    </script>
+</body>
+</html>
