@@ -7,6 +7,7 @@ const app = express()
 
 const userRouter = require('./routes/user')
 const boardRouter = require('./routes/board')
+const commendRouter = require('./routes/commend')
 
 const connectDB = require('./config/database')
 connectDB()
@@ -24,6 +25,7 @@ app.use(morgan('dev'))
 
 app.use('/user', userRouter)
 app.use('/board', boardRouter)
+app.use('/commend', commendRouter)
 
 app.get('/signup', (req, res) => {
 

@@ -1,26 +1,35 @@
 const express = require('express')
 const router = express.Router()
 const boardModel = require('../model/board')
+const checkAuth = require('../middleware/check_auth')
+const board = require('../model/board')
 
-// total get board
-router.get('/', async (req, res) => {
+router.get('/', checkAuth, (req, res) => {
 
     try{
-        const boards = await boardModel.find()
-                            .populate('user', ['email'])
+        const result = {status : 'success', boardData : []}
+        const user = res.locals.user.id
+        boardModel.find({user}).exec(function(err, boards){
 
-        res.status(200).json({
-            msg : "get boards",
-            count : boards.length,
-            boardInfo : boards.map(board => {
+            if(err){
+                console.log(err)
+            }
+            else{
+                
+                for(const board of boards){
 
-                return {
-                    id : board._id,
-                    user : board.user,
-                    board : board.board
+                    const temp = {
+                        id : board["_id"],
+                        board : board["board"]
+                    }
+
+                    result["boardData"].push(temp)
                 }
-            })
+
+                res.status(200).json(result)
+            }
         })
+
     }
     catch(err){
         res.status(500).json({
@@ -62,9 +71,15 @@ router.get('/:boardId', async (req, res) => {
 })
 
 // register board
-router.post('/', async (req, res) => {
+router.post('/save', checkAuth, (req, res) => {
 
-    const { user, board} = req.body
+    const result = { status : 'success '}
+
+    const user = res.locals.user.id
+
+    console.log('save을 위한 user 정보 확인: ', user)
+
+    const { board } = req.body
 
     const newBoard = new boardModel({
 
@@ -72,16 +87,9 @@ router.post('/', async (req, res) => {
     })
 
     try{
-        const board = await newBoard.save()
+        newBoard.save()
 
-        res.status(200).json({
-            msg : "register board",
-            boardInfo : {
-                id : board._id,
-                user : board.user,
-                board : board.board
-            }
-        })
+        res.status(200).json(result)
     }
     catch(err){
         res.status(500).json({

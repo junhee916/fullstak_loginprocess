@@ -8,6 +8,11 @@ const modelSchema = mongoose.Schema(
             required : true
         },
         board : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'board',
+            required : true
+        },
+        commend : {
             type : String,
             required : true
         }
@@ -17,4 +22,4 @@ const modelSchema = mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model('board', modelSchema)
+module.exports = mongoose.model('commend', modelSchema)

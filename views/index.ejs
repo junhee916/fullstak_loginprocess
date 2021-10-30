@@ -14,11 +14,22 @@
 </head>
 <body>
     
-    <h1>index</h1>
+    <h1>게시판</h1>
 
     <div id = "user_email"></div>
 
+    <h2>일상을 기록하세요</h2>
+    <div>
+        <textarea id="board"></textarea>
+        <div id="boardSaveBtn">save</div>
+    </div>
+
+    <div>Write</div>
+    <div id="board_view"></div>
+
     <script>
+
+        const boardSaveBtn = document.getElementById("boardSaveBtn")
 
         $(document).ready(function(){
 
@@ -44,6 +55,54 @@
                 }
             })
 
+            $.ajax({
+
+                type : "GET",
+                url : '/board',
+                headers : {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                success : function(response){
+                    console.log('get boardInfo 성공 여부 확인: ',response["boardData"])
+
+                    const boards = response["boardData"]
+
+                    for(let i = 0; i<boards.length; i++){
+                        
+                        const htmlTemp = 
+                        `
+                        <div>${boards[i]["board"]}</div>
+                        `
+
+                        $("#board_view").append(htmlTemp)
+                    }
+                }
+            })
+
+        })
+
+        boardSaveBtn.addEventListener("click", function(){
+
+            const board = $("#board").val()
+
+            $.ajax({
+                type : "POST",
+                url : "/board/save",
+                headers : {
+                    authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                data : {
+                    board : board
+                },
+                success : function(response){
+                    if(response){
+                        alert("등록이 완료되었습니다.")
+                    }
+                    else{
+                        alert("다시 등록하시기 바랍니다.")
+                    }
+                }
+            })
         })
 
     </script>
