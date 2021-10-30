@@ -61,7 +61,7 @@
         
                 <div class="signup_btn" id="signupBtn">signup</div>
         
-                <div class="signup_btn_sub" id="listBtn">list</div>
+                <div class="signup_btn_sub" id="loginMoveBtn">login</div>
         
             </div>
     
@@ -72,7 +72,7 @@
     <script>
 
         const signupBtn = document.getElementById("signupBtn")
-        const listBtn = document.getElementById("listBtn")
+        const loginMoveBtn = document.getElementById("loginMoveBtn")
 
         signupBtn.addEventListener("click", function(){
 
@@ -89,10 +89,18 @@
                     password : password
                 },
                 success : function(response){
-
+                    alert("회원가입이 완료되었습니다.")
+                    location.href = '/login'
                 }
             })
 
+        })
+
+        loginMoveBtn.addEventListener("click", function(){
+
+            alert("로그인 페이지로 이동합니다.")
+
+            location.href = '/login'
         })
 
 

@@ -33,6 +33,11 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
+app.get('/index', (req, res) => {
+
+    res.render('index')
+})
+
 const PORT = process.env.PORT || 7000
 
 app.listen(PORT, console.log("connected server..."))

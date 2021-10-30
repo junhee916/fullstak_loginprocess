@@ -107,6 +107,8 @@ router.post('/login', async (req, res) => {
 
     const { email, password } = req.body
 
+    const result = {status : 'success'}
+
     try{
         const user = await userModel.findOne({email})
 
@@ -129,21 +131,13 @@ router.post('/login', async (req, res) => {
                         email : user.email
                     }
 
-                    const token = jwt.sign(
+                    jwt.sign(
                         payload,
                         process.env.SECRET_KEY,
                         {expiresIn : '1h'}
                     )
 
-                    res.status(200).json({
-                        msg : "success login",
-                        userInfo : {
-                            id : user._id,
-                            name : user.name,
-                            email : user.email
-                        },
-                        tokenInfo : token
-                    })
+                    res.status(200).send(result)
                 }
             })
         }
