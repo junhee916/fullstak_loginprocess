@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const userModel = require('../model/user')
 
 module.exports = (req, res, next) => {
 
@@ -7,9 +8,14 @@ module.exports = (req, res, next) => {
 
         const decode = jwt.verify(token, process.env.SECRET_KEY)
 
-        req.userData = decode;
+        console.log('token 정보 출력 확인: ',decode)
+
+        console.log('token id 전달 확인: ', decode.id)
+
+        res.locals.user = decode;
 
         next();
+
     }
     catch(err){
         res.status(500).json({

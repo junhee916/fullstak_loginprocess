@@ -5,23 +5,20 @@ const jwt = require('jsonwebtoken')
 const checkAuth = require('../middleware/check_auth')
 
 // total get user
-router.get('/', async (req, res) => {
+router.get('/', checkAuth, async (req, res) => {
 
     try{
-        const users = await userModel.find()
+
+        const result = {status : 'success' }
+
+        const user = res.locals.user
+
+        console.log('token local 전달 확인: ', user)
 
         res.status(200).json({
-            msg : "get users",
-            count : users.length,
-            userInfo : users.map(user => {
-
-                return {
-                    id : user._id,
-                    name : user.name,
-                    email : user.email,
-                    password : user.password
-                }
-            })
+            msg : "get tokenInfo",
+            email : user.email,
+            result : result
         })
     }
     catch(err){
@@ -131,13 +128,21 @@ router.post('/login', async (req, res) => {
                         email : user.email
                     }
 
-                    jwt.sign(
+                    const token = jwt.sign(
                         payload,
                         process.env.SECRET_KEY,
                         {expiresIn : '1h'}
                     )
 
-                    res.status(200).send(result)
+                    res.status(200).json({
+                        userInfo : {
+                            id : user._id,
+                            name : user.name,
+                            email : user.email
+                        },
+                        token : token,
+                        resultInfo : result
+                    })
                 }
             })
         }

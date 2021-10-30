@@ -77,7 +77,16 @@
                 },
                 success : function(response){
 
+                    console.log('response 전달 확인: ', response)
+
+                    let token = response.token
+
+                    console.log("token set 확인: ", token)
+
+                    localStorage.setItem("token", token)
+
                     location.href = '/index'
+
                 }
             })
 

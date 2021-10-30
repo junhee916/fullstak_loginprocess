@@ -6,6 +6,7 @@ const path = require('path')
 const app = express()
 
 const userRouter = require('./routes/user')
+const boardRouter = require('./routes/board')
 
 const connectDB = require('./config/database')
 connectDB()
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({extended : false}))
 app.use(morgan('dev'))
 
 app.use('/user', userRouter)
+app.use('/board', boardRouter)
 
 app.get('/signup', (req, res) => {
 
